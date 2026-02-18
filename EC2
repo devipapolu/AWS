@@ -1,3 +1,4 @@
+EC2:
 "Amazon EC2 is a scalable virtual compute service.
 We can launch instances with required OS, RAM, and CPU.
 It supports any language-based application like Node.js, Python, Java.
@@ -6,164 +7,103 @@ When stopped, only storage billing applies.
 When terminated, compute billing stops completely."
 
 🔹 1. Compute Services (Servers Run Cheyadaniki)
-
 Amazon EC2
-
 Virtual server
-
 Example: Nuvvu Node.js backend ni EC2 lo host chestav
-
 Pay: Per hour billing
 
 AWS Lambda
-
 Server manage cheyyakunda code run cheyachu
-
 Example: Image upload ayyaka auto resize function
 
 Amazon ECS
-
 Docker containers run cheyadaniki
 
 Amazon EKS
-
 Kubernetes cluster manage cheyadaniki
 
 AWS Elastic Beanstalk
-
 Code deploy chesthe AWS infra manage chestundi
 
 🔹 2. Storage Services (Data Save Cheyadaniki)
-
 Amazon S3
-
 Images, backups, logs store cheyadaniki
-
 Example: DMS lo documents store cheyadam
 
 Amazon EBS
-
 EC2 ki attach ayye disk
 
 Amazon EFS
-
 Multiple servers share chese storage
 
 🔹 3. Database Services
-
 Amazon RDS
-
 MySQL, PostgreSQL, MariaDB run cheyachu
-
 Amazon DynamoDB
-
 Fast NoSQL DB
-
 Amazon Aurora
-
 High performance MySQL/Postgres compatible DB
 
 🔹 4. Networking Services
-
 Amazon VPC
-
 Private network create cheyadaniki
 
 Elastic Load Balancing
-
 Traffic distribute cheyadaniki
 
 Amazon Route 53
-
 Domain DNS manage cheyadaniki
 
 AWS CloudFront
-
 Global content delivery
 
 🔹 5. Security Services
-
 AWS IAM
-
 Users, roles, permissions manage cheyadaniki
 
 AWS WAF
-
 Web attacks prevent cheyadaniki
 
 AWS Shield
-
 DDoS protection
 
 🔹 6. DevOps / CI-CD Services
-
 AWS CodePipeline
-
 CI/CD pipeline create cheyadaniki
 
 AWS CodeBuild
-
 Code build cheyadaniki
 
 AWS CodeDeploy
-
 Automatic deployment
 
 Amazon CloudWatch
-
 Logs & monitoring
 
 🔹 7. Monitoring & Management
 
 AWS CloudTrail
-
 API activity track cheyadaniki
 
 AWS Config
-
 Resource changes track
 
 🎯 Simple Architecture Example (Interview Style)
-
 Nuvvu AI Chatbot project deploy chesthe:
-
 Frontend → S3 + CloudFront
-
 Backend → EC2 / EKS
-
 DB → RDS / DynamoDB
-
 Storage → S3
-
 Security → IAM + WAF
-
 Monitoring → CloudWatch
 
 If you want, nenu:
-
 🔥 Only DevOps ki important services list
-
 🔥 Only Interview point of view important services
-
 🔥 Real project architecture breakdown
-
 🔥 AWS services with real-time use case story
 
-cheppagalanu.
 
-Cheppu Devi 😊
-
-**Amazon EC2** * Virtual server * Example: Nuvvu Node.js backend ni EC2 lo host chestav * Pay: Per hour billing
-
-amzon ec2 anedi compute lo okati antey adina application ni host cheyadaniki use chestam 
-denilo a languague use chesina application iyena host cheyochu manam and mana server ni manaki ela kavali antey a os tho and manaki kavalisina ram tho manam create chesukovachu 
-deni application running lo vunnantha varau billing padutundi when we stopped the instance billing minimal ga padutundi ,when we terminate the instance then billing stopped.
-creating ki step evu
-
-Correct Devi 👍
-Nuvvu cheppindi 100% correct about Amazon EC2.
-
-Ippudu nenu Amazon EC2 create cheyadaniki complete step-by-step process chepthanu (Interview + Practical use ki).
 
 🔥 EC2 Instance Create Cheyadam – Step By Step
 🔹 Step 1: AWS Console Login
@@ -271,3 +211,47 @@ State	Billing
 Running	Full billing
 Stopped	Only EBS storage billing
 Terminated	No compute billing
+
+🔥 1️⃣ EC2 Internal Architecture (Inside What Happens?)
+
+Amazon EC2 internally ela work chestundo ardham ayithe interview lo highlight avuthav.
+
+🧠 Architecture Layers
+Physical Server (AWS Data Center)
+        ↓
+Hypervisor (Virtualization Layer)
+        ↓
+Virtual Machine (EC2 Instance)
+        ↓
+Operating System (Ubuntu / Amazon Linux)
+        ↓
+Your Application (Node / Python / Java)
+
+🔹 Physical Server
+
+AWS data center lo real hardware servers untayi.
+
+🔹 Hypervisor
+
+AWS Nitro Hypervisor use chestundi (lightweight & secure virtualization).
+
+It:
+
+CPU allocate chestundi
+
+RAM allocate chestundi
+
+Isolation provide chestundi
+
+🔹 EC2 Instance
+
+Virtual machine create avutundi.
+
+🔹 EBS
+
+Amazon EBS attach avutundi (hard disk laga).
+
+🔹 Networking
+
+Amazon VPC lo run avutundi.
+Security Groups firewall laga work chestayi.
