@@ -576,8 +576,20 @@ Elastic Load Balancing
 
 🎯 Goal
 Create EC2 Instance using Terraform + GitHub Actions
-Git push chesthe automatic ga EC2 create avvali in AWS.
 
+Root Login
+    ↓
+Create IAM User
+    ↓
+Give Permissions
+    ↓
+Generate Access Key
+    ↓
+aws configure
+    ↓
+Terraform / GitHub Actions
+
+Git push chesthe automatic ga EC2 create avvali in AWS.
 Use:
 HashiCorp Terraform
 GitHub
