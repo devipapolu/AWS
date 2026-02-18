@@ -4,3 +4,270 @@ It supports any language-based application like Node.js, Python, Java.
 Billing is per second/hour while running.
 When stopped, only storage billing applies.
 When terminated, compute billing stops completely."
+
+🔹 1. Compute Services (Servers Run Cheyadaniki)
+
+Amazon EC2
+
+Virtual server
+
+Example: Nuvvu Node.js backend ni EC2 lo host chestav
+
+Pay: Per hour billing
+
+AWS Lambda
+
+Server manage cheyyakunda code run cheyachu
+
+Example: Image upload ayyaka auto resize function
+
+Amazon ECS
+
+Docker containers run cheyadaniki
+
+Amazon EKS
+
+Kubernetes cluster manage cheyadaniki
+
+AWS Elastic Beanstalk
+
+Code deploy chesthe AWS infra manage chestundi
+
+🔹 2. Storage Services (Data Save Cheyadaniki)
+
+Amazon S3
+
+Images, backups, logs store cheyadaniki
+
+Example: DMS lo documents store cheyadam
+
+Amazon EBS
+
+EC2 ki attach ayye disk
+
+Amazon EFS
+
+Multiple servers share chese storage
+
+🔹 3. Database Services
+
+Amazon RDS
+
+MySQL, PostgreSQL, MariaDB run cheyachu
+
+Amazon DynamoDB
+
+Fast NoSQL DB
+
+Amazon Aurora
+
+High performance MySQL/Postgres compatible DB
+
+🔹 4. Networking Services
+
+Amazon VPC
+
+Private network create cheyadaniki
+
+Elastic Load Balancing
+
+Traffic distribute cheyadaniki
+
+Amazon Route 53
+
+Domain DNS manage cheyadaniki
+
+AWS CloudFront
+
+Global content delivery
+
+🔹 5. Security Services
+
+AWS IAM
+
+Users, roles, permissions manage cheyadaniki
+
+AWS WAF
+
+Web attacks prevent cheyadaniki
+
+AWS Shield
+
+DDoS protection
+
+🔹 6. DevOps / CI-CD Services
+
+AWS CodePipeline
+
+CI/CD pipeline create cheyadaniki
+
+AWS CodeBuild
+
+Code build cheyadaniki
+
+AWS CodeDeploy
+
+Automatic deployment
+
+Amazon CloudWatch
+
+Logs & monitoring
+
+🔹 7. Monitoring & Management
+
+AWS CloudTrail
+
+API activity track cheyadaniki
+
+AWS Config
+
+Resource changes track
+
+🎯 Simple Architecture Example (Interview Style)
+
+Nuvvu AI Chatbot project deploy chesthe:
+
+Frontend → S3 + CloudFront
+
+Backend → EC2 / EKS
+
+DB → RDS / DynamoDB
+
+Storage → S3
+
+Security → IAM + WAF
+
+Monitoring → CloudWatch
+
+If you want, nenu:
+
+🔥 Only DevOps ki important services list
+
+🔥 Only Interview point of view important services
+
+🔥 Real project architecture breakdown
+
+🔥 AWS services with real-time use case story
+
+cheppagalanu.
+
+Cheppu Devi 😊
+
+**Amazon EC2** * Virtual server * Example: Nuvvu Node.js backend ni EC2 lo host chestav * Pay: Per hour billing
+
+amzon ec2 anedi compute lo okati antey adina application ni host cheyadaniki use chestam 
+denilo a languague use chesina application iyena host cheyochu manam and mana server ni manaki ela kavali antey a os tho and manaki kavalisina ram tho manam create chesukovachu 
+deni application running lo vunnantha varau billing padutundi when we stopped the instance billing minimal ga padutundi ,when we terminate the instance then billing stopped.
+creating ki step evu
+
+Correct Devi 👍
+Nuvvu cheppindi 100% correct about Amazon EC2.
+
+Ippudu nenu Amazon EC2 create cheyadaniki complete step-by-step process chepthanu (Interview + Practical use ki).
+
+🔥 EC2 Instance Create Cheyadam – Step By Step
+🔹 Step 1: AWS Console Login
+
+AWS Console open cheyyi
+
+Services lo EC2 search cheyyi
+
+Launch Instance click cheyyi
+
+🔹 Step 2: Name and AMI Select Cheyyadam
+1️⃣ Instance Name
+
+Example:
+dev-backend-server
+
+2️⃣ AMI (Amazon Machine Image) Select Cheyyali
+
+Popular Options:
+
+Amazon Linux
+
+Ubuntu
+
+Windows Server
+
+Example:
+👉 Production backend ki → Ubuntu 22.04 LTS
+
+👉 Lightweight server → Amazon Linux
+
+🔹 Step 3: Instance Type Select Cheyyadam
+
+Instance type ante RAM + CPU combination.
+
+Examples:
+
+t2.micro (Free tier)
+
+t3.medium
+
+m5.large
+
+Example:
+👉 Small testing app → t2.micro
+👉 Production backend → t3.medium
+
+🔹 Step 4: Key Pair Create Cheyyadam
+
+SSH login kosam required.
+
+Create new key pair
+
+Type: RSA
+
+Download .pem file
+
+⚠️ Important:
+Ee file lekunda server ki login avvalevu.
+
+🔹 Step 5: Network Settings
+
+Default ga VPC create ayi untundi.
+
+Security Group lo:
+
+Add rules:
+
+SSH → Port 22 → Your IP
+
+HTTP → Port 80 → Anywhere
+
+HTTPS → Port 443 → Anywhere
+
+Custom → 3000 (Node app run chesthe)
+
+🔹 Step 6: Storage Configure Cheyyadam
+
+Default:
+8GB
+
+Production:
+20GB / 30GB
+
+Storage type:
+gp3 (General Purpose SSD)
+
+🔹 Step 7: Launch Instance
+
+Review → Launch
+
+Instance running state ki vastundi.
+
+🔥 Server Ki Login Ela Avvali?
+chmod 400 key.pem
+ssh -i key.pem ubuntu@<public-ip>
+
+
+Amazon Linux aithe:
+
+ssh -i key.pem ec2-user@<public-ip>
+
+🔥 Billing Explanation (Correct Version)
+State	Billing
+Running	Full billing
+Stopped	Only EBS storage billing
+Terminated	No compute billing
