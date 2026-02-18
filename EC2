@@ -228,30 +228,316 @@ Operating System (Ubuntu / Amazon Linux)
 Your Application (Node / Python / Java)
 
 🔹 Physical Server
-
 AWS data center lo real hardware servers untayi.
 
 🔹 Hypervisor
-
 AWS Nitro Hypervisor use chestundi (lightweight & secure virtualization).
 
 It:
-
 CPU allocate chestundi
-
 RAM allocate chestundi
-
 Isolation provide chestundi
 
 🔹 EC2 Instance
-
 Virtual machine create avutundi.
 
 🔹 EBS
-
 Amazon EBS attach avutundi (hard disk laga).
 
 🔹 Networking
-
 Amazon VPC lo run avutundi.
 Security Groups firewall laga work chestayi.
+
+
+VPC :
+3-Tier Architecture (Production Ready)
+📚 Tiers Breakdown
+🔵 1️⃣ Presentation Tier (Web Layer)
+Location: Public Subnet
+
+Components Used:
+Elastic Load Balancing
+Bastion Host (for admin access)
+
+Purpose:
+Handles user traffic
+SSL termination
+Traffic distribution
+
+🟢 2️⃣ Application Tier (Business Logic Layer)
+
+Location: Private Subnet
+
+Components Used:
+Amazon EC2
+
+Purpose:
+Runs backend (Node / Python / Java app)
+Processes requests
+Communicates with database
+Calls 3rd party APIs via NAT Gateway
+
+🟣 3️⃣ Data Tier (Database Layer)
+Location: Private Subnet
+
+Components Used:
+Amazon RDS
+
+Purpose:
+Stores application data
+Fully private
+No direct internet exposure
+
+🌐 Network Foundation
+
+Built inside:
+Amazon VPC
+Public & Private Subnets
+Internet Gateway
+NAT Gateway
+Security Groups
+NACL
+
+🧠 🎯 SCENARIO (Requirement)
+Manaki kavalsindi:
+Public users application access cheyali
+App server secure ga undali (direct internet access undakudadhu)
+Database fully private undali
+App 3rd party APIs ni access cheyali
+Secure SSH access kavali
+High security & scalable architecture kavali
+
+🏗 REQUIRED AWS COMPONENTS
+
+We use:
+Amazon VPC
+Amazon EC2
+Elastic Load Balancing
+Amazon RDS
+Internet Gateway
+NAT Gateway
+Security Groups
+NACL
+
+🔵 ARCHITECTURE BLUEPRINT
+                    Internet
+                       ↓
+               Internet Gateway
+                       ↓
+            ───────── PUBLIC SUBNET ─────────
+            |  Load Balancer              |
+            |  Bastion Host               |
+            |  NAT Gateway                |
+            ──────────────────────────────
+                       ↓
+            ───────── PRIVATE SUBNET ─────────
+            |  App EC2                    |
+            |  RDS Database               |
+            ──────────────────────────────
+
+🪜 STEP-BY-STEP CREATION
+✅ STEP 1: Create VPC
+CIDR: 10.0.0.0/16
+Why? Large IP range for scalability.
+
+✅ STEP 2: Create Subnets
+Public Subnet
+10.0.1.0/24
+Enable auto assign public IP
+
+Use:
+Load Balancer
+Bastion
+NAT Gateway
+Private Subnet
+10.0.2.0/24
+Disable auto assign public IP
+
+Use:
+App EC2
+RDS
+
+✅ STEP 3: Create Internet Gateway
+Attach to VPC.
+Public route table:
+0.0.0.0/0 → IGW
+Attach to Public Subnet.
+
+✅ STEP 4: Create NAT Gateway
+Create Elastic IP
+Create NAT Gateway in Public Subnet
+Private route table:
+0.0.0.0/0 → NAT Gateway
+Attach to Private Subnet.
+
+Why?
+Private EC2 3rd party API access kosam.
+
+✅ STEP 5: Create Security Groups
+Load Balancer SG
+80 / 443 → 0.0.0.0/0
+Bastion SG
+22 → Your IP only
+App EC2 SG
+3000 → From Load Balancer SG
+22 → From Bastion SG
+RDS SG
+3306 → From App EC2 SG only
+Layered security 🔥
+
+✅ STEP 6: Create Load Balancer
+
+Use:
+Elastic Load Balancing
+Place in Public Subnet
+Attach LB Security Group
+Target Group → Private EC2
+
+✅ STEP 7: Create Private EC2 (App Server)
+
+Use:
+Amazon EC2
+Select Private Subnet
+Disable public IP
+Attach App Security Group
+Deploy application here.
+
+✅ STEP 8: Create RDS
+
+Use:
+Amazon RDS
+Select Private Subnet
+Disable public access
+Attach RDS Security Group
+
+🔁 COMPLETE TRAFFIC FLOW
+User Traffic
+User → Internet → IGW → Load Balancer → Private EC2 → RDS
+
+Developer Access
+Laptop → Bastion → Private EC2
+
+3rd Party API Access
+Private EC2 → NAT Gateway → Internet
+
+🔐 SECURITY ADVANTAGES
+
+✔ App server no public IP
+✔ Database fully private
+✔ Only Load Balancer exposed
+✔ SSH restricted
+✔ Outbound controlled
+
+🎯 INTERVIEW STRONG ANSWER
+"In production, I design a VPC with segregated public and private subnets. Public subnet hosts the load balancer, bastion host, and NAT gateway. Application and database servers are placed in private subnets without public IPs. Inbound traffic flows through the load balancer, while outbound internet access from private instances is routed via NAT gateway. Security groups provide instance-level control, and NACLs add subnet-level filtering."
+
+
+🚀 Project: Create EC2 Using Terraform from VS Code
+🧩 STEP 1: Install Required Tools
+1️⃣ Install Terraform
+
+Download from:
+👉 HashiCorp website
+
+After install check:
+terraform -version
+Output vasthe install ayindi ✅
+Vastakapothe PATH set cheyyali.
+
+2️⃣ Install AWS CLI
+Download from:
+
+👉 Amazon Web Services official site
+Check:
+aws --version
+
+3️⃣ VS Code Extension Install Cheyyali
+Open VS Code → Extensions → Search:
+Terraform by HashiCorp → Install
+
+🔐 STEP 2: Configure AWS Credentials
+AWS Console lo create chesina:
+Access Key
+Secret Key
+Region (example: ap-south-1)
+
+Terminal lo run cheyyi:
+aws configure
+
+Enter:
+AWS Access Key ID: ********
+AWS Secret Access Key: ********
+Default region: ap-south-1
+Default output format: json
+Now AWS CLI connected ✅
+
+📁 STEP 3: Create Project Folder
+mkdir terraform-ec2
+cd terraform-ec2
+code .
+Ippudu VS Code lo empty folder open avutundi.
+
+📝 STEP 4: Create main.tf File
+Create new file → main.tf
+
+Paste this:
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "myec2" {
+  ami           = "ami-0f5ee92e2d63afc18"   # Amazon Linux (Mumbai)
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "Terraform-EC2"
+  }
+}
+
+🔍 STEP 5: Initialize Terraform
+terraform init
+
+👉 Downloads AWS provider
+
+📋 STEP 6: Check Plan
+terraform plan
+
+
+👉 What will be created ani chupistundi
+
+🏗 STEP 7: Create EC2
+terraform apply
+
+Type:
+yes
+
+
+Now EC2 create avutundi 🎉
+
+Check in:
+👉 Amazon EC2 console
+
+🗑 Delete Instance (Important)
+terraform destroy
+
+Type yes.
+
+Instance delete avutundi.
+
+🧠 Internal Flow
+
+VS Code
+→ Terraform
+→ AWS Provider
+→ AWS API
+→ EC2 Created
+
+🔥 Complete Flow Summary
+Install Terraform
+Install AWS CLI
+Configure aws configure
+Create project folder
+Write main.tf
+terraform init
+terraform apply
