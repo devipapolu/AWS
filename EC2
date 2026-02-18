@@ -541,3 +541,175 @@ Create project folder
 Write main.tf
 terraform init
 terraform apply
+
+
+🚀 Level 2: EC2 Advanced Concepts
+1️⃣ Attach EBS Volume
+Default root disk kakunda:
+Extra storage attach cheyachu
+Separate volume for logs
+Backup easy
+
+Use:
+Amazon Elastic Block Store
+
+2️⃣ Elastic IP Attach
+EC2 stop/start cheste public IP marutundi.
+Permanent public IP kavali ante:
+
+Use:
+Elastic IP
+
+3️⃣ Auto Scaling Group
+Manual ga create cheyadam kakunda:
+Traffic batti automatic ga scale avvali ante:
+
+Use:
+Amazon EC2 Auto Scaling
+
+4️⃣ Application Load Balancer
+Multiple EC2 instances ki traffic distribute cheyali ante:
+
+Use:
+Elastic Load Balancing
+
+
+🎯 Goal
+Create EC2 Instance using Terraform + GitHub Actions
+Git push chesthe automatic ga EC2 create avvali in AWS.
+
+Use:
+HashiCorp Terraform
+GitHub
+GitHub Actions
+Amazon Web Services
+
+✅ STEP 1: Install Required Tools (Local System)
+
+Check:
+terraform -v
+aws --version
+git --version
+
+Install ayyi undali.
+
+✅ STEP 2: Create Terraform Project
+mkdir terraform-ec2
+cd terraform-ec2
+code .
+
+✅ STEP 3: Create main.tf
+Create file → main.tf
+
+Paste:
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "myec2" {
+  ami           = "ami-0f5ee92e2d63afc18"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "Github-Actions-EC2"
+  }
+}
+
+
+⚠️ Note: AMI Mumbai region ki correct undali.
+
+✅ STEP 4: Test Locally Once (Important)
+terraform init
+terraform apply
+
+EC2 create ayithe confirm chesukoni:
+
+terraform destroy
+
+✅ STEP 5: Create GitHub Repository
+Go to:
+
+👉 GitHub
+Create new repository.
+
+✅ STEP 6: Push Code to GitHub
+Inside project folder run:
+
+git init
+git add .
+git commit -m "Initial Terraform code"
+git branch -M main
+git remote add origin <your-repo-url>
+git push -u origin main
+
+✅ STEP 7: Add AWS Secrets in GitHub
+
+GitHub Repo → Settings → Secrets → Actions → New repository secret
+Add 3 secrets:
+
+AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY
+AWS_REGION
+
+
+Example:
+AWS_REGION → ap-south-1
+
+✅ STEP 8: Create GitHub Actions Workflow File
+Inside your project create folders:
+
+.github/workflows/
+
+Inside that create:
+
+terraform.yml
+
+✅ STEP 9: Paste Workflow Code
+name: Terraform EC2 Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+
+✅ STEP 10: Push Workflow File
+git add .
+git commit -m "Added GitHub Actions workflow"
+git push
+
+🎉 FINAL RESULT
+
+Push jarigina ventane:
+
+1️⃣ GitHub Actions trigger avuthundi
+2️⃣ Terraform init run avuthundi
+3️⃣ Terraform apply run avuthundi
+4️⃣ EC2 create avuthundi in AWS
+
+Check in:
+👉 Amazon EC2 console
