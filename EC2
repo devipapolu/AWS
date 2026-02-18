@@ -1,0 +1,6 @@
+"Amazon EC2 is a scalable virtual compute service.
+We can launch instances with required OS, RAM, and CPU.
+It supports any language-based application like Node.js, Python, Java.
+Billing is per second/hour while running.
+When stopped, only storage billing applies.
+When terminated, compute billing stops completely."
